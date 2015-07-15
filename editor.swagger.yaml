@@ -1,0 +1,101 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Pixelated API
+  description: API Description for the Pixelated Leaf Development Client
+  version: "0.0.1"
+# the domain of the service
+host: localhost:3333
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /
+produces:
+  - application/json
+paths:
+  /mails:
+    get:
+      summary: List of Mails
+      description: |
+        Return a list of mails
+      parameters:
+        - name: q
+          in: query
+          description: Which folder to show. "tag inbox"
+          required: true
+          type: string
+        - name: p
+          in: query
+          description: Which page do we want to see
+          required: true
+          type: number
+          format: Int32
+        - name: w
+          in: query
+          description: How many items do we want to have returned
+          required: true
+          type: number
+          format: integer
+      tags:
+        - Mails
+      responses:
+        200:
+          description: An array of mails
+          schema:
+            $ref: '#/definitions/MailEnvelope'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  MailEnvelope:
+    properties:
+      mails:
+        type: array
+        items:
+          $ref: '#/definitions/Mail'
+  Mail:
+    properties:
+      status:
+        type: array
+        items:
+          type: string
+      header:
+        properties:
+          from:
+            type: string
+          cc:
+            type: array
+            items:
+              type: string
+          to:
+            type: array
+            items:
+              type: string
+          content-type: 
+            type: string
+          date:
+            type: string
+          subject:
+            type: string
+      ident:
+        type: string
+      textPlainBody:
+        type: string
+      tags:
+        type: array
+        items:
+          type: string
+      mailBox:
+        type: string
+  Error:
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
