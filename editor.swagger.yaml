@@ -23,7 +23,7 @@ paths:
       parameters:
         - name: q
           in: query
-          description: Which folder to show. "tag inbox"
+          description: Which folder to show. "tag:inbox"
           required: true
           type: string
         - name: p
