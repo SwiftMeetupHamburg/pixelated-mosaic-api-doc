@@ -61,9 +61,51 @@
                     }
                 }
             }
+        },
+        "/tags": {
+            "get": {
+                "summary": "List of Tags",
+                "description": "Return a list of available tags\n",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Filter tags by name. Query only filters custom tags",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "skipDefaultTags",
+                        "in": "query",
+                        "description": "Whether to show default tags (trash, inbox, sent, drafts).",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "tags": [
+                    "Tags"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of tags",
+                        "schema": {
+                            "$ref": "#/definitions/TagEnvelope"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "MailIdent": {
+            "type": "string"
+        },
         "MailEnvelope": {
             "properties": {
                 "mails": {
@@ -111,7 +153,7 @@
                     }
                 },
                 "ident": {
-                    "type": "string"
+                    "$ref": "#/definitions/MailIdent"
                 },
                 "textPlainBody": {
                     "type": "string"
@@ -123,6 +165,43 @@
                     }
                 },
                 "mailBox": {
+                    "type": "string"
+                }
+            }
+        },
+        "TagEnvelope": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Tag"
+            }
+        },
+        "Tag": {
+            "properties": {
+                "default": {
+                    "type": "boolean"
+                },
+                "mails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MailIdent"
+                    }
+                },
+                "count": {
+                    "properties": {
+                        "read": {
+                            "type": "number",
+                            "format": "int32"
+                        },
+                        "total": {
+                            "type": "number",
+                            "format": "int32"
+                        }
+                    }
+                },
+                "ident": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 }
             }
