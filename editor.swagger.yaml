@@ -49,6 +49,75 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /mail/{ident}:
+    get:
+      summary: Gets mail details
+      description: |
+        Return details of a specific mail
+      parameters:
+        - name: ident
+          in: path
+          description: Identifier of mail
+          required: true
+          type: string
+      tags:
+        - Mails
+      responses:
+        200:
+          description: An array of mails
+          schema:
+            $ref: '#/definitions/Mail'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Deletes a mail
+      description: |
+        On first call it moves the mail into the 'trash' folder, on second call the mail is deleted.
+      parameters:
+        - name: ident
+          in: path
+          description: Identifier of mail
+          required: true
+          type: string
+      tags:
+        - Mails
+      responses:
+        200:
+          description: Returns 'null'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /mail/{ident}/tags:
+    post:
+      summary: Changes tags of a mail
+      description: |
+        Changes the list of tags of a specific mail
+      parameters:
+        - name: ident
+          in: path
+          description: Identifier of mail
+          required: true
+          type: string
+        - name: newtags
+          in: body
+          description: List of tags
+          required: true
+          schema:
+            $ref: '#/definitions/MailTagsEnvelope'
+      tags:
+        - Mails
+      responses:
+        200:
+          description: An array of mails
+          schema:
+            $ref: '#/definitions/Mail'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /tags:
     get:
       summary: List of Tags
@@ -111,6 +180,16 @@ definitions:
             type: string
       ident:
         $ref: '#/definitions/MailIdent'
+      replying:
+        properties:
+          single:
+            $ref: '#/definitions/Recipient'
+          all:
+            properties:
+              to-field:
+                $ref: '#/definitions/RecipientList'
+              to-field:
+                $ref: '#/definitions/RecipientList'
       textPlainBody:
         type: string
       tags:
@@ -119,6 +198,18 @@ definitions:
           type: string
       mailBox:
         type: string
+  RecipientList:
+    type: array
+    items:
+      $ref: '#/definitions/Recipient'
+  Recipient:
+    type: string
+  MailTagsEnvelope:
+    properties:
+      newtags:
+        type: array
+        items:
+          type: string
   TagEnvelope:
     type: array
     items:
