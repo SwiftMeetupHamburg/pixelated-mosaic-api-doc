@@ -83,6 +83,46 @@ paths:
           description: The specified mail
           schema:
             $ref: '#/definitions/Mail'
+  /mails/read:
+    post:
+      summary: Mark as read
+      description: |
+        Marks a list of mails as read
+      parameters:
+        - name: mails
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/MailIdentsEnvelope'
+      tags:
+        - Mails
+      responses:
+        200:
+          description: Returns 'null'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /mails/unread:
+    post:
+      summary: Mark as unread
+      description: |
+        Marks a list of mails as unread
+      parameters:
+        - name: mails
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/MailIdentsEnvelope'
+      tags:
+        - Mails
+      responses:
+        200:
+          description: Returns 'null'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /mail/{ident}:
     get:
       summary: Gets mail details
@@ -205,6 +245,12 @@ paths:
 definitions:
   MailIdent:
     type: string
+  MailIdentsEnvelope:
+    properties:
+      idents:
+        type: array
+        items:
+          $ref: '#/definitions/MailIdent'
   MailEnvelope:
     properties:
       mails:
