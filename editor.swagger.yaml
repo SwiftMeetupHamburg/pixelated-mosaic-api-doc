@@ -49,6 +49,40 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+    put:
+      summary: Creates a mail draft
+      description: |
+        Creates a new mail draft
+      parameters:
+        - name: mail
+          in: body
+          schema:
+            $ref: '#/definitions/Mail'
+      tags:
+        - Mails
+      responses:
+        200:
+          description: A new mail identifier
+          schema:
+            properties:
+              ident:
+                $ref: '#/definitions/MailIdent'
+    post:
+      summary: Sends a mail
+      description: |
+        Sends a mail. The mail ident of the response may be different to the one specified in body.
+      tags:
+        - Mails
+      parameters:
+        - name: mail
+          in: body
+          schema:
+            $ref: '#/definitions/Mail'
+      responses:
+        200:
+          description: The specified mail
+          schema:
+            $ref: '#/definitions/Mail'
   /mail/{ident}:
     get:
       summary: Gets mail details
@@ -61,10 +95,10 @@ paths:
           required: true
           type: string
       tags:
-        - Mails
+        - Mail
       responses:
         200:
-          description: An array of mails
+          description: The specified mail
           schema:
             $ref: '#/definitions/Mail'
         default:
@@ -82,7 +116,7 @@ paths:
           required: true
           type: string
       tags:
-        - Mails
+        - Mail
       responses:
         200:
           description: Returns 'null'
@@ -108,7 +142,8 @@ paths:
           schema:
             $ref: '#/definitions/MailTagsEnvelope'
       tags:
-        - Mails
+        - Mail
+        - Tags
       responses:
         200:
           description: An array of mails

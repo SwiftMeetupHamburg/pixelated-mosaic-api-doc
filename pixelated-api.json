@@ -60,6 +60,58 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "summary": "Creates a mail draft",
+                "description": "Creates a new mail draft\n",
+                "parameters": [
+                    {
+                        "name": "mail",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Mail"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Mails"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A new mail identifier",
+                        "schema": {
+                            "properties": {
+                                "ident": {
+                                    "$ref": "#/definitions/MailIdent"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Sends a mail",
+                "description": "Sends a mail. The mail ident of the response may be different to the one specified in body.\n",
+                "tags": [
+                    "Mails"
+                ],
+                "parameters": [
+                    {
+                        "name": "mail",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Mail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The specified mail",
+                        "schema": {
+                            "$ref": "#/definitions/Mail"
+                        }
+                    }
+                }
             }
         },
         "/mail/{ident}": {
@@ -76,11 +128,11 @@
                     }
                 ],
                 "tags": [
-                    "Mails"
+                    "Mail"
                 ],
                 "responses": {
                     "200": {
-                        "description": "An array of mails",
+                        "description": "The specified mail",
                         "schema": {
                             "$ref": "#/definitions/Mail"
                         }
@@ -106,7 +158,7 @@
                     }
                 ],
                 "tags": [
-                    "Mails"
+                    "Mail"
                 ],
                 "responses": {
                     "200": {
@@ -144,7 +196,8 @@
                     }
                 ],
                 "tags": [
-                    "Mails"
+                    "Mail",
+                    "Tags"
                 ],
                 "responses": {
                     "200": {
