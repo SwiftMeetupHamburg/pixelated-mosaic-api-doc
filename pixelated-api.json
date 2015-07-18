@@ -215,6 +215,38 @@
                 }
             }
         },
+        "/contacts": {
+            "get": {
+                "summary": "Contact suggestions",
+                "description": "Returns contact suggestions for the given query\n",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Substring of a contact",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Contacts"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of matching contacts",
+                        "schema": {
+                            "$ref": "#/definitions/RecipientList"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
         "/tags": {
             "get": {
                 "summary": "List of Tags",
