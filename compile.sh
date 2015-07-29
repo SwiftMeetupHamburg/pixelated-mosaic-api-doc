@@ -1,0 +1,1 @@
+java -jar ./swagger-codegen/modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i ./pixelated-api.json -t ./swagger-codegen/modules/swagger-codegen/src/main/resources/swift -l swift -o $1
