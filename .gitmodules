@@ -1,0 +1,4 @@
+[submodule "swagger-codegen"]
+	path = swagger-codegen
+	url = https://github.com/terhechte/swagger-codegen
+	branch = Swift-2.0b4
