@@ -10,12 +10,13 @@ host: localhost:3333
 # array of all schemes that your API supports
 schemes:
   - http
+  - https
 # will be prefixed to all paths
 basePath: /
 produces:
   - application/json
 paths:
-  /mails:
+  mails:
     get:
       summary: List of Mails
       description: |
@@ -30,14 +31,12 @@ paths:
           in: query
           description: Which page do we want to see
           required: true
-          type: number
-          format: Int32
+          type: integer
         - name: w
           in: query
           description: How many items do we want to have returned
           required: true
-          type: number
-          format: integer
+          type: integer
       tags:
         - Mails
       responses:
@@ -98,7 +97,7 @@ paths:
         - Mails
       responses:
         200:
-          description: Returns 'null'
+          description: Returns something
         default:
           description: Unexpected error
           schema:
@@ -118,7 +117,7 @@ paths:
         - Mails
       responses:
         200:
-          description: Returns 'null'
+          description: Returns something
         default:
           description: Unexpected error
           schema:
@@ -159,7 +158,7 @@ paths:
         - Mail
       responses:
         200:
-          description: Returns 'null'
+          description: Returns something
         default:
           description: Unexpected error
           schema:
@@ -328,11 +327,9 @@ definitions:
       count:
         properties:
           read:
-            type: number
-            format: int32
+            type: integer
           total:
-            type: number
-            format: int32
+            type: integer
       ident:
         type: string
       name:
@@ -341,7 +338,6 @@ definitions:
     properties:
       code:
         type: integer
-        format: int32
       message:
         type: string
       fields:
