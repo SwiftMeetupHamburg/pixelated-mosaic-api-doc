@@ -57,6 +57,25 @@ Give it the folder where you'll want the files to be written out.
 
 That's it.
 
+## Using the Swift Code
+
+Here's an example of how you use the generated Swift code.
+This looks awful but is just to get you started with PromiseKit et al
+
+This will get the most recent list of mails. This call works. I haven't
+tested the other calls yet.
+
+``` Swift
+let p = SwaggerClientAPI.MailsAPI().mailsGet(q: "", p: 0, w: 0)
+let px = p.execute().then {
+    (body: Response<MailEnvelope>) throws -> Response<MailEnvelope> in
+    if let m = body.body.mails?.first {
+        print(m.textPlainBody!)
+    }
+    return body
+}
+```
+
 ## Links
 
 ### Swagger Scheme Documentation Spec:
