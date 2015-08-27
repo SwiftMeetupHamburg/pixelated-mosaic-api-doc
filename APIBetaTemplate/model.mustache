@@ -28,7 +28,7 @@ extension {{classname}} : Argo.Decodable {
     static func decode(js: Argo.JSON) -> Decoded<{{classname}}> {
         return curry({{classname}}.init)
             {{#vars}}
-                <*> js <|{{^required}}?{{/required}} "{{name}}"
+                {{#-first}}<^>{{/-first}}{{^-first}}<*>{{/-first}} js <|{{^required}}?{{/required}} "{{name}}"
             {{/vars}}
     }
 }
