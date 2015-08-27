@@ -15,39 +15,6 @@ class {{projectName}}API {
     func willSendRequest(request: NSMutableURLRequest) -> NSMutableURLRequest {
         return request
     }
-
-    {{#operations}}
-
-    {{#description}}
-    /** {{description}} */{{/description}}
-
-    struct {{classname}} {
-{{#operation}}
-        /**
-         {{#summary}}
-         {{{summary}}}
-         {{/summary}}
-         - {{httpMethod}} {{path}}{{#notes}}
-         - {{{notes}}}{{/notes}}{{#subresourceOperation}}
-         - subresourceOperation: {{subresourceOperation}}{{/subresourceOperation}}{{#defaultResponse}}
-         - defaultResponse: {{defaultResponse}}{{/defaultResponse}}{{#authMethods}}
-         - authMethods: {{authMethods}}{{/authMethods}}{{#responseHeaders}}
-         - responseHeaders: {{responseHeaders}}{{/responseHeaders}}{{#examples}}
-         - examples: {{{examples}}}{{/examples}}{{#externalDocs}}
-         - externalDocs: {{externalDocs}}{{/externalDocs}}{{#hasParams}}
-         {{/hasParams}}{{#allParams}}
-         :param: {{paramName}} ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}}{{/allParams}}
-
-         :returns: Promise<Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>> {{description}}
-         */
-        func {{operationId}}({{#allParams}}{{^secondaryParam}}{{paramName}} {{/secondaryParam}}{{paramName}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Endpoint<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
-             return Endpoint<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>({{projectName}}API(), path: "{{path}")
-        }
-{{/operation}}
-    }
-
-    {{/operations}}
-
 }
 
 
