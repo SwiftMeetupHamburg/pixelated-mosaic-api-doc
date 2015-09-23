@@ -31,6 +31,23 @@ extension {{classname}} : Argo.Decodable {
                 {{#-first}}<^>{{/-first}}{{^-first}}<*>{{/-first}} js <|{{^required}}?{{/required}} "{{name}}"
             {{/vars}}
     }
+
+    func encode() -> [String: AnyObject] {
+            var result: [String: AnyObject] = [:]
+            {{#vars}}
+                {{#isEnum}}
+                    result["{{name}}"] = self.{{{name}}}
+                {{/isEnum}}
+                {{^isEnum}}
+                    if let typ = self.{{{name}}} as? Argo.Decodable {
+                        result["{{name}}"] = typ.encode()
+                    } else {
+                        result["{{name}}"] = self.{{{name}}}
+                    }
+                {{/isEnum}}
+        {{/vars}}
+        return result
+    }
 }
 
 {{/model}}
