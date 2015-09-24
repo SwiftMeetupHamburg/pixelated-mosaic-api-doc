@@ -55,6 +55,7 @@ paths:
       parameters:
         - name: mail
           in: body
+          required: true
           schema:
             $ref: '#/definitions/Mail'
       tags:
@@ -63,9 +64,7 @@ paths:
         200:
           description: A new mail identifier
           schema:
-            properties:
-              ident:
-                $ref: '#/definitions/MailIdent'
+            type: string
     post:
       summary: Sends a mail
       description: |
@@ -75,6 +74,7 @@ paths:
       parameters:
         - name: mail
           in: body
+          required: true
           schema:
             $ref: '#/definitions/Mail'
       responses:
@@ -98,6 +98,8 @@ paths:
       responses:
         200:
           description: Returns something
+          schema:
+            $ref: '#/definitions/Mail'
         default:
           description: Unexpected error
           schema:
@@ -118,6 +120,8 @@ paths:
       responses:
         200:
           description: Returns something
+          schema:
+            $ref: '#/definitions/Mail'
         default:
           description: Unexpected error
           schema:
@@ -159,6 +163,8 @@ paths:
       responses:
         200:
           description: Returns something
+          schema:
+            $ref: '#/definitions/Mail'
         default:
           description: Unexpected error
           schema:
@@ -209,7 +215,9 @@ paths:
         200:
           description: An array of matching contacts
           schema:
-            $ref: '#/definitions/RecipientList'
+            type: array
+            items:
+              $ref: '#/definitions/Recipient'
         default:
           description: Unexpected error
           schema:
@@ -236,20 +244,20 @@ paths:
         200:
           description: An array of tags
           schema:
-            $ref: '#/definitions/TagEnvelope'
+            type: array
+            items:
+              $ref: '#/definitions/Tag'
         default:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
 definitions:
-  MailIdent:
-    type: string
   MailIdentsEnvelope:
     properties:
       idents:
         type: array
         items:
-          $ref: '#/definitions/MailIdent'
+          type: string
   MailEnvelope:
     properties:
       mails:
@@ -281,7 +289,7 @@ definitions:
           subject:
             type: string
       ident:
-        $ref: '#/definitions/MailIdent'
+        type: string
       replying:
         properties:
           single:
@@ -289,9 +297,13 @@ definitions:
           all:
             properties:
               to-field:
-                $ref: '#/definitions/RecipientList'
+                 type: array
+                 items:
+                    $ref: '#/definitions/Recipient'
               to-field:
-                $ref: '#/definitions/RecipientList'
+                 type: array
+                 items:
+                    $ref: '#/definitions/Recipient'
       textPlainBody:
         type: string
       tags:
@@ -300,22 +312,16 @@ definitions:
           type: string
       mailBox:
         type: string
-  RecipientList:
-    type: array
-    items:
-      $ref: '#/definitions/Recipient'
   Recipient:
-    type: string
+    properties:
+      address:
+        type: string
   MailTagsEnvelope:
     properties:
       newtags:
         type: array
         items:
           type: string
-  TagEnvelope:
-    type: array
-    items:
-      $ref: '#/definitions/Tag'
   Tag:
     properties:
       default:
@@ -323,7 +329,7 @@ definitions:
       mails:
         type: array
         items:
-          $ref: '#/definitions/MailIdent'
+          type: string
       count:
         properties:
           read:
