@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import Argo
+import Curry
+
 
 {{#description}} {{description}} {{/description}}
 
@@ -24,11 +27,12 @@ struct {{classname}} {
     {{/vars}}
 }
 
-extension {{classname}} : Argo.Decodable {
+extension {{classname}} : Argo.Decodable, JSONEncodable {
     static func decode(js: Argo.JSON) -> Decoded<{{classname}}> {
         return curry({{classname}}.init)
             {{#vars}}
-                {{#-first}}<^>{{/-first}}{{^-first}}<*>{{/-first}} js <|{{^required}}?{{/required}} "{{name}}"
+                
+                {{#-first}}<^>{{/-first}}{{^-first}}<*>{{/-first}} js <{{#isContainer}}|{{/isContainer}}|{{^required}}?{{/required}} "{{name}}"
             {{/vars}}
     }
 
@@ -36,14 +40,27 @@ extension {{classname}} : Argo.Decodable {
             var result: [String: AnyObject] = [:]
             {{#vars}}
                 {{#isEnum}}
+
                     result["{{name}}"] = self.{{{name}}}
                 {{/isEnum}}
                 {{^isEnum}}
-                    if let typ = self.{{{name}}} as? Argo.Decodable {
-                        result["{{name}}"] = typ.encode()
-                    } else {
-                        result["{{name}}"] = self.{{{name}}}
-                    }
+
+                        {{#isContainer}}
+                            result["{{{name}}}"] = self.{{{name}}}?.flatMap({(e) -> AnyObject? in
+                                if let e = e as? JSONEncodable {
+                                    return e.encode()
+                                } else {
+                                    return e as? AnyObject
+                                }
+                            })
+                        {{/isContainer}}
+                        {{^isContainer}}
+                            if let typ = self.{{{name}}} as? JSONEncodable {
+                                result["{{name}}"] = typ.encode()
+                            } else {
+                                result["{{{name}}}"] = self.{{{name}}} as? AnyObject
+                            }
+                        {{/isContainer}}
                 {{/isEnum}}
         {{/vars}}
         return result

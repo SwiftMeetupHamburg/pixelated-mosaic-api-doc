@@ -6,12 +6,17 @@
 
 import Foundation
 import Argo
+import Curry
 
-class {{projectName}}API {
+
+class {{projectName}}API: ProviderCompatible {
     var baseURL = "{{^basePathOverride}}{{basePath}}{{/basePathOverride}}{{basePathOverride}}"
     var clientID = ""
     var clientSecret = ""
-
+    var providerName = "Pixelated"
+    func accessToken() -> String {
+        return ""
+    }
     func willSendRequest(request: NSMutableURLRequest) -> NSMutableURLRequest {
         return request
     }
